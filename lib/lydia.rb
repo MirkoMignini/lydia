@@ -1,5 +1,2 @@
-require "lydia/version"
-
-module Lydia
-  # Your code goes here...
-end
+require 'lydia/application'
+require 'lydia/version'
