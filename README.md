@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/MirkoMignini/lydia.svg)](https://travis-ci.org/MirkoMignini/lydia)
+[![Coverage Status](https://coveralls.io/repos/MirkoMignini/lydia/badge.svg?branch=master&service=github)](https://coveralls.io/github/MirkoMignini/lydia?branch=master)
+[![Code Climate](https://codeclimate.com/github/MirkoMignini/lydia/badges/gpa.svg)](https://codeclimate.com/github/MirkoMignini/lydia)
+
 # Lydia
 
 Lightweight, fast and easy to use small ruby web framework.
