@@ -1,12 +1,15 @@
 require 'lydia/standard_pages'
 require 'lydia/route'
 require 'lydia/not_found'
+require 'lydia/request'
 
 module Lydia
   class Router
     include StandardPages
     
-    class << self
+    class << self      
+      attr_reader :request, :env, :params
+      
       def routes
         @routes ||= Hash.new { |h, k| h[k] = [] }
       end
@@ -18,6 +21,9 @@ module Lydia
       end
       
       def dispatch(env)
+        @env = env
+        @request = Request.new(env)
+        @params = @request.params
         routes[env['REQUEST_METHOD']].each do |route|
           return route.block if route.match?(env)
         end
