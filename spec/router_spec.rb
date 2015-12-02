@@ -9,6 +9,14 @@ describe "Router" do
       get_response('<H1>Hello world!</H1>')
     end
     
+    get '/200' do
+      get_response('')
+    end
+    
+    get '/500' do
+      raise Exception.new('Error!')
+    end  
+    
     get '/querystring_params' do
       get_response(params['name'])
     end
@@ -26,6 +34,11 @@ describe "Router" do
       raise StandardError unless env.is_a? Hash
       get_response('')
     end    
+    
+    get '/params' do
+      raise StandardError unless params.is_a? Hash
+      get_response('')
+    end      
     
     get %r{/regexp$}i do
       get_response('')
@@ -48,64 +61,102 @@ describe "Router" do
     Router.new
   end
   
-  it "returns ok" do
-    get '/'
-    expect(last_response).to_not be_nil
-    expect(last_response.status).to eq(200)
-    expect(last_response.headers.to_hash).to eq({'Content-Type' => 'text/html', 'Content-Length' => '21'})
-    expect(last_response.body).to eq('<H1>Hello world!</H1>')
+  context 'Status codes' do
+    it 'returns 200' do
+      get '/200'
+      expect(last_response.status).to eq(200)  
+    end
+    
+    it 'returns 404' do
+      get '/not_found'
+      expect(last_response.status).to eq(404)  
+    end
+    
+    it 'returns 500' do
+      get '/500'
+      expect(last_response.status).to eq(500)  
+    end    
   end
   
-  it 'GET wildcard' do
-    get '/wildcard'
-    expect(last_response.status).to eq(200)
+  context 'Returns array' do
+    it "returns ok" do
+      get '/'
+      expect(last_response).to_not be_nil
+      expect(last_response.status).to eq(200)
+      expect(last_response.headers.to_hash).to eq({'Content-Type' => 'text/html', 'Content-Length' => '21'})
+      expect(last_response.body).to eq('<H1>Hello world!</H1>')
+    end
   end
   
-  it 'GET wildcard/' do
-    get '/wildcard/'
-    expect(last_response.status).to eq(200)
+  context 'Routing' do
+    
+    context 'Wildcards' do
+      it 'GET wildcard' do
+        get '/wildcard'
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'GET wildcard/' do
+        get '/wildcard/'
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'GET wildcard/hello' do
+        get '/wildcard/hello'
+        expect(last_response.status).to eq(200)
+      end  
+
+      it 'GET wildcard/hello/bob' do
+        get '/wildcard/hello/bob'
+        expect(last_response.status).to eq(200)
+      end
+    end
+    
+    context 'Regular expressions' do
+      it 'GET /Regexp' do
+        get '/Regexp'
+        expect(last_response.status).to eq(200)
+      end
+    end
+    
+    context 'Named parameters' do
+      it 'GET /users/3/comments/138/edit' do
+        get '/users/3/comments/138/edit'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('3-138')
+      end
+
+      it 'GET /api/v2/users' do
+        get '/api/v2/users'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('2')
+      end     
+    end
+    
+    context 'Query string params' do
+      it 'GET /querystring_params' do
+        get '/querystring_params', { name: 'bob' }
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('bob')
+      end      
+    end
   end
   
-  it 'GET wildcard/hello' do
-    get '/wildcard/hello'
-    expect(last_response.status).to eq(200)
-  end  
-  
-  it 'GET wildcard/hello/bob' do
-    get '/wildcard/hello/bob'
-    expect(last_response.status).to eq(200)
+  context 'Global methods' do
+    it 'has a request method' do
+      get '/request'
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'has a env method' do
+      get '/env'
+      expect(last_response.status).to eq(200)
+    end 
+    
+    it 'has a params method' do
+      get '/params'
+      expect(last_response.status).to eq(200)
+    end     
   end
-  
-  it 'GET querystring params' do
-    get '/querystring_params', { name: 'bob' }
-    expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq('bob')
-  end
-  
-  it 'has a request method' do
-    get '/request'
-    expect(last_response.status).to eq(200)
-  end
-  
-  it 'has a env method' do
-    get '/env'
-    expect(last_response.status).to eq(200)
-  end  
-  
-  it 'returns 200' do
-    get '/Regexp'
-    expect(last_response.status).to eq(200)
-  end  
-  
-  it 'named parameters' do
-    get '/users/3/comments/138/edit'
-    expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq('3-138')
-  end
-  
-  it 'named parameters with prefix' do
-    get '/api/v2/users'
-    expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq('2')
-  end  
+   
 end

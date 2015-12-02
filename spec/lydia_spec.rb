@@ -6,15 +6,7 @@ require 'json'
 describe "Application" do
   include Rack::Test::Methods
 
-  class App < Lydia::Application
-    get '/200' do
-      200
-    end
-    
-    get '/500' do
-      raise Exception.new('Error!')
-    end    
-    
+  class App < Lydia::Application    
     get '/return_fixnum' do
       200
     end 
@@ -102,23 +94,6 @@ describe "Application" do
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('0123456789')
     end
-  end
-  
-  context 'Status codes' do
-    it 'returns 200' do
-      get '/200'
-      expect(last_response.status).to eq(200)  
-    end
-    
-    it 'returns 404' do
-      get '/not_found'
-      expect(last_response.status).to eq(404)  
-    end
-    
-    it 'returns 500' do
-      get '/500'
-      expect(last_response.status).to eq(500)  
-    end    
   end
   
   context 'View' do
