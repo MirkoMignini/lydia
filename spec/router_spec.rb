@@ -28,6 +28,21 @@ describe "Router" do
       raise StandardError unless env.is_a? Hash
       [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, ['']]
     end    
+    
+    get %r{/regexp$}i do
+      body = 'Regexp'
+      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+    end    
+    
+    get '/users/:id/comments/:comment_id/edit' do
+      body = "#{params[:id]}-#{params[:comment_id]}"
+      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, [body]]
+    end
+    
+    get '/api/v:version/users' do
+      body = params[:version]
+      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+    end
   end
   
   def app
@@ -76,5 +91,23 @@ describe "Router" do
   it 'has a env method' do
     get '/env'
     expect(last_response.status).to eq(200)
+  end  
+  
+  it 'returns 200' do
+    get '/Regexp'
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to eq('Regexp')
+  end  
+  
+  it 'named parameters' do
+    get '/users/3/comments/138/edit'
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to eq('3-138')
+  end
+  
+  it 'named parameters with prefix' do
+    get '/api/v2/users'
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to eq('2')
   end  
 end

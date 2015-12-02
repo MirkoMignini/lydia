@@ -25,7 +25,10 @@ module Lydia
         @request = Request.new(env)
         @params = @request.params
         routes[env['REQUEST_METHOD']].each do |route|
-          return route.block if route.match?(env)
+          if route.match?(env)
+            @params.merge!(route.params) if route.params
+            return route.block 
+          end
         end
         raise NotFound
       end

@@ -1,18 +1,17 @@
 module Lydia
   class Route    
-    attr_reader :block, :regexp
+    attr_reader :block, :regexp, :params
     
-    WILDCARD_PATTERN = /\/\*(.*)/
-    NAMED_SEGMENTS_PATTERN = /\/([^\/]*):([^:$\/]+)/
+    WILDCARD_REGEX = /\/\*(.*)/
+    NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/
 
     def initialize(pattern, block)
       @block = block
       if pattern.is_a? String
-        if pattern.match(WILDCARD_PATTERN)
-          result = pattern.gsub(WILDCARD_PATTERN, '(?:/(.*)|)')
-          puts result
-        elsif pattern.match(NAMED_SEGMENTS_PATTERN)
-          #todo
+        if pattern.match(WILDCARD_REGEX)
+          result = pattern.gsub(WILDCARD_REGEX, '(?:/(.*)|)')
+        elsif pattern.match(NAMED_SEGMENTS_REGEX)
+          result = pattern.gsub(NAMED_SEGMENTS_REGEX, '/\1(?<\2>[^.$/]+)')
         else
           result = pattern
         end
@@ -27,7 +26,9 @@ module Lydia
     end
 
     def match?(env)
-      @regexp.match("#{env['PATH_INFO']}") ? true : false
+      match = @regexp.match("#{env['PATH_INFO']}")
+      @params = Hash[match.names.map(&:to_sym).zip(match.captures)] if match && match.names.size
+      match
     end
   end 
 end
