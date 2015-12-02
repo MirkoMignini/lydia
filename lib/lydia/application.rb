@@ -7,19 +7,7 @@ module Lydia
     extend View
     include StandardPages
     
-    def initialize(&block)
-      instance_eval(&block) if block
-    end
-    
-    def self.call(env)
-      new.call(env)
-    end
-    
-    def call(env)
-      dup._call(env)
-    end
-    
-    def _call(env)
+    def process
       Response.new.build {
         begin
           dispatch(env).call(env)

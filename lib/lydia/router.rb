@@ -7,9 +7,9 @@ module Lydia
   class Router
     include StandardPages
     
+    attr_reader :request, :env, :params
+    
     class << self      
-      attr_reader :request, :env, :params
-      
       def routes
         @routes ||= Hash.new { |h, k| h[k] = [] }
       end
@@ -20,13 +20,10 @@ module Lydia
         end
       end
       
-      def dispatch(env)
-        @env = env
-        @request = Request.new(env)
-        @params = @request.params
+      def dispatch!(env, params)
         routes[env['REQUEST_METHOD']].each do |route|
           if route.match?(env)
-            @params.merge!(route.params) if route.params
+            params.merge!(route.params) if route.params
             return route.block 
           end
         end
@@ -34,22 +31,33 @@ module Lydia
       end
     end
     
+    def self.call(env)
+      new.call(env)
+    end
+    
     def call(env)
       dup._call(env)
     end
     
     def _call(env)
+      @env = env
+      @request = Request.new(env)
+      @params = @request.params
+      process
+    end
+    
+    def process
       begin
-        self.class.dispatch(env).call(env)
+        instance_eval(&dispatch(env))
       rescue NotFound
         not_found(env)
       rescue Exception => exception
         internal_server_error(env, exception)
-      end
+      end      
     end
     
     def dispatch(env)
-      self.class.dispatch(env)
+      self.class.dispatch!(env, params)
     end 
   end
 end

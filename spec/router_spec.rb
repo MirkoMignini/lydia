@@ -4,49 +4,48 @@ require 'rack/test'
 describe "Router" do
   include Rack::Test::Methods
 
-  class OnlyRouter < Lydia::Router
+  class Router < Lydia::Router
     get '/' do 
-      body = '<H1>Hello world!</H1>'
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+      get_response('<H1>Hello world!</H1>')
     end
     
     get '/querystring_params' do
-      body = params['name']
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+      get_response(params['name'])
     end
     
     get '/wildcard/*' do
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, ['']]
+      get_response('')
     end
     
     get '/request' do
       raise StandardError unless request.is_a? Lydia::Request
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, ['']]
+      get_response('')
     end
     
     get '/env' do
       raise StandardError unless env.is_a? Hash
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, ['']]
+      get_response('')
     end    
     
     get %r{/regexp$}i do
-      body = 'Regexp'
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+      get_response('')
     end    
     
     get '/users/:id/comments/:comment_id/edit' do
-      body = "#{params[:id]}-#{params[:comment_id]}"
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> '0' }, [body]]
+      get_response("#{params[:id]}-#{params[:comment_id]}")
     end
     
     get '/api/v:version/users' do
-      body = params[:version]
+      get_response(params[:version])
+    end
+
+    def get_response(body)
       [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
     end
   end
   
   def app
-    OnlyRouter.new
+    Router.new
   end
   
   it "returns ok" do
@@ -96,7 +95,6 @@ describe "Router" do
   it 'returns 200' do
     get '/Regexp'
     expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq('Regexp')
   end  
   
   it 'named parameters' do
