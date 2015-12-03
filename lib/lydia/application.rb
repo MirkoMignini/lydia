@@ -9,13 +9,7 @@ module Lydia
     
     def process
       Response.new.build {
-        begin
-          instance_eval(&dispatch(env))
-        rescue NotFound
-          not_found(env)
-        rescue StandardError => exception
-          internal_server_error(env, exception)
-        end
+        super
       }
     end
   end  
