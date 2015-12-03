@@ -98,15 +98,25 @@ describe 'Response' do
       end
     end
 
-    it 'builds using an object that responds to :each' do
-      result = response.build { Stream.new }
-      expect(result).to_not be_nil
-      expect(result).to be_an(Array)
-      expect(result[0]).to eq(200)
-      expect(result[1]).to include('Content-Type' => 'text/html')
-      expect(result[1]).to include('Content-Length')
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to_not be_nil
+    context 'Stream' do
+      
+      it 'builds a valid stream object' do
+        stream = ''
+        Stream.new.each{ |i| stream += i }
+        expect(stream).to eq('0123456789')
+      end
+    
+      it 'builds using an object that responds to :each' do
+        result = response.build { Stream.new }
+        expect(result).to_not be_nil
+        expect(result).to be_an(Array)
+        expect(result[0]).to eq(200)
+        expect(result[1]).to include('Content-Type' => 'text/html')
+        expect(result[1]).to include('Content-Length')
+        expect(result[2].body).to be_an(Array)
+        expect(result[2].body[0]).to_not be_nil
+      end
+    
     end
     
     it 'returns ArgumentError if object is not allowed' do
