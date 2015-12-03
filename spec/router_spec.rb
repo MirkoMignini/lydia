@@ -131,7 +131,6 @@ describe "Router" do
         expect {
           class WrongRoute < Lydia::Router
             get Object do 
-              get_response('<H1>Hello world!</H1>')
             end
           end  
         }.to raise_error(ArgumentError)
