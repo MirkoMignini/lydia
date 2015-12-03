@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'rack/test'
 require 'erb'
 require 'json'
+require 'lydia/application'
 
 describe "Application" do
   include Rack::Test::Methods
