@@ -9,8 +9,8 @@ describe "Router" do
       get_response('<H1>Hello world!</H1>')
     end
 
-    get '/200' do
-      get_response('')
+    get '/204' do
+      get_response('', 204)
     end
 
     get '/500' do
@@ -37,8 +37,8 @@ describe "Router" do
       get_response(params[:version])
     end
 
-    def get_response(body)
-      [200, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+    def get_response(body, status = 200)
+      [status, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
     end
   end
 
@@ -47,9 +47,9 @@ describe "Router" do
   end
 
   context 'Status codes' do
-    it 'returns 200' do
-      get '/200'
-      expect(last_response.status).to eq(200)  
+    it 'returns 204' do
+      get '/204'
+      expect(last_response.status).to eq(204)  
     end
 
     it 'returns 404' do
@@ -164,7 +164,7 @@ describe "Router" do
     end
     
     it 'is initialized' do
-      get '/200'
+      get '/'
       expect(last_response.status).to eq(200)
     end    
   end
