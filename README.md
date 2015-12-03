@@ -22,20 +22,32 @@ Or install it yourself as:
 
     $ gem install lydia
 
+## Another ruby web framework? Wtf? Why?
+
+This project is not intended to become a top notch framework or the new rails, it's just an experiment. 
+The goals of this project are:
+
+* [Rack](https://github.com/rack/rack/) based.
+* Modular (Router, Application...).
+* A powerful router that works stand alone too.
+* Templates support.
+* Well written, easy to read and to understand code.
+* [Don't repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+* Less lines of code as possible (but no [code golf](https://en.wikipedia.org/wiki/Code_golf)).
+* [100% test code coverage](https://coveralls.io/github/MirkoMignini/lydia?branch=master).
+* [0 coveralls issues](https://codeclimate.com/github/MirkoMignini/lydia/issues).
+
 ## Usage
 
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Usage instructions soon available!
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/MirkoMignini/lydia.
-
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
 ## License
 
