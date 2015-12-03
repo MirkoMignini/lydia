@@ -21,7 +21,7 @@ describe 'Response' do
     
     it 'builds using a string (body)' do
       body = 'Hello world!'
-      result = response.build { body }
+      result = response.build(body)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(200)
@@ -33,7 +33,7 @@ describe 'Response' do
     
     it 'builds using a fixnum (status)' do
       status = 204
-      result = response.build { status }
+      result = response.build(status)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(204)
@@ -45,7 +45,7 @@ describe 'Response' do
     
     it 'builds using a hash (body)' do
       body = {hello: 'world'}
-      result = response.build { body }
+      result = response.build(body)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(200)
@@ -57,7 +57,7 @@ describe 'Response' do
     
     it 'builds using an array of two (body is array)' do
       body = [201, ['Body']]
-      result = response.build { body }
+      result = response.build(body)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(201)
@@ -69,7 +69,7 @@ describe 'Response' do
     
     it 'builds using an array of two (body is noy an array)' do
       body = [201, 'Body']
-      result = response.build { body }
+      result = response.build(body)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(201)
@@ -81,7 +81,7 @@ describe 'Response' do
     
     it 'builds using an array of three' do
       body = [201, {'Authentication' => '12345'}, 'Body']
-      result = response.build { body }
+      result = response.build(body)
       expect(result).to_not be_nil
       expect(result).to be_an(Array)
       expect(result[0]).to eq(201)
@@ -107,7 +107,7 @@ describe 'Response' do
       end
     
       it 'builds using an object that responds to :each' do
-        result = response.build { Stream.new }
+        result = response.build(Stream.new)
         expect(result).to_not be_nil
         expect(result).to be_an(Array)
         expect(result[0]).to eq(200)
@@ -121,7 +121,7 @@ describe 'Response' do
     
     it 'returns ArgumentError if object is not allowed' do
       expect {
-        response.build { nil }
+        response.build(nil)
       }.to raise_error(ArgumentError)
     end
   end

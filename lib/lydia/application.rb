@@ -7,9 +7,7 @@ module Lydia
     include View
     
     def process
-      Response.new.build {
-        super
-      }
+      Response.new.build(super)
     end
   end  
 end
