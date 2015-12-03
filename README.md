@@ -22,7 +22,7 @@ Or install it yourself as:
 
     $ gem install lydia
 
-## Another ruby web framework? Wtf? Why?
+## Another ruby web framework? WTF?
 
 This project is not intended to become a top notch framework or the new rails, it's just an experiment. 
 The goals of this project are:
@@ -30,12 +30,13 @@ The goals of this project are:
 * [Rack](https://github.com/rack/rack/) based.
 * Modular (Router, Application...).
 * A powerful router that works stand alone too.
-* Templates support.
+* Easy templates support using [Tilt](https://github.com/rtomayko/tilt).
 * Well written, easy to read and to understand code.
-* [Don't repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 * Less lines of code as possible (but no [code golf](https://en.wikipedia.org/wiki/Code_golf)).
+* [Don't repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
 * [100% test code coverage](https://coveralls.io/github/MirkoMignini/lydia?branch=master).
-* [0 coveralls issues](https://codeclimate.com/github/MirkoMignini/lydia/issues).
+* [Continuos integration](https://travis-ci.org/MirkoMignini/lydia).
+* Highest codeclimate score and [0 issues](https://codeclimate.com/github/MirkoMignini/lydia/issues).
 
 ## Usage
 
