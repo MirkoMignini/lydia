@@ -13,7 +13,7 @@ module Lydia
           instance_eval(&dispatch(env))
         rescue NotFound
           not_found(env)
-        rescue Exception => exception
+        rescue StandardError => exception
           internal_server_error(env, exception)
         end
       }

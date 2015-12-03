@@ -5,8 +5,8 @@ module Lydia
       [404, {'Content-Type' => 'text/html', 'Content-Length' => message.length.to_s}, [message]]
     end
 
-    def internal_server_error(env = nil, exception = nil)
-      message = "<html><body><h1>Internal server error</h1><p>#{exception.to_s}</p></body></html>"
+    def internal_server_error(_env = nil, exception = nil)
+      message = "<html><body><h1>Internal server error</h1><p>#{exception}</p></body></html>"
       [500, {'Content-Type' => 'text/html', 'Content-Length' => message.length.to_s}, [message]]      
     end
   end
