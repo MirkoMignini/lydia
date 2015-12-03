@@ -14,7 +14,7 @@ describe "Router" do
     end
     
     get '/500' do
-      raise Exception.new('Error!')
+      raise StandardError.new('Error!')
     end  
     
     get '/querystring_params' do
