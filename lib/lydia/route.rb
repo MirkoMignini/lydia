@@ -18,8 +18,6 @@ module Lydia
         @regexp = Regexp.new("\\A#{result}\\z")
       elsif pattern.is_a? Regexp
         @regexp = pattern
-      elsif pattern.responds_to?(:to_s)
-        @regexp = Route.new(pattern.to_s, block).regexp
       else
         raise ArgumentError.new('Pattern must be a string or a regex')
       end

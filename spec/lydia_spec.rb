@@ -53,43 +53,43 @@ describe "Application" do
   end
   
   context 'Response types' do
-    it 'returns a fixnum' do
+    it 'fixnum' do
       get '/return_fixnum'
       expect(last_response.status).to eq(200)
     end
   
-    it 'returns a string' do
+    it 'string' do
       get '/return_string'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Body')
     end
     
-    it 'returns a hash' do
+    it 'hash' do
       get '/return_hash'
       expect(last_response.status).to eq(200)
       expect(last_response.header['Content-Type']).to eq('application/json')
       expect(JSON.parse(last_response.body)).to eq({'key' => 'value'})
     end    
   
-    it 'returns an array of 2' do
+    it 'array of 2 (body is not an array)' do
       get '/return_array2'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Body')
     end
     
-    it 'returns an array of 2 (body is array)' do
+    it 'array of 2 (body is array)' do
       get '/return_array2_body_array'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Body')
     end    
 
-    it 'returns an array of 3' do
+    it 'array of 3' do
       get '/return_array3'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Body')
     end
     
-    it 'returns an obj that responds to each' do
+    it 'obj that responds to each' do
       get '/return_object_each'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('0123456789')
