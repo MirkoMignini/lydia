@@ -1,11 +1,9 @@
 require 'lydia/application'
+require 'forwardable'
 
 module Lydia
   module Delegator
-    [:head, :get, :patch, :put, :post, :delete, :options].each do |method|
-      define_method(method) do |*args, &block|
-        Lydia::Application.send(method, *args, &block)
-      end
-    end
+    extend Forwardable
+    def_delegators Lydia::Application, :head, :get, :patch, :put, :post, :delete, :options
   end
 end
