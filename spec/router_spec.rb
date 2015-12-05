@@ -38,6 +38,14 @@ describe "Router" do
       get_response(params[:version])
     end
     
+    get '/next_route' do
+      next_route
+    end
+    
+    get '/next_route' do
+      get_response('Next route works!')
+    end    
+    
     namespace '/namespace' do
       get '/hello' do
         get_response('Hello from namespace')
@@ -128,6 +136,14 @@ describe "Router" do
       it 'GET /Regexp' do
         get '/Regexp'
         expect(last_response.status).to eq(200)
+      end
+    end
+    
+    context 'Next route' do
+      it 'Goto next route' do
+        get '/next_route'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('Next route works!')
       end
     end
 

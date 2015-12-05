@@ -28,20 +28,14 @@ module Lydia
         @namespace = prev_namespace
       end
       
-      def dispatch!(env, params)
-        routes[env['REQUEST_METHOD']].each do |route|
-          if route.match?(env)
-            params.merge!(route.params) if route.params
-            return route.block 
-          end
-        end
-        raise NotFound
-      end
-      
       def call(env)
         new.call(env)
       end
     end
+    
+    def next_route
+      throw :next_route
+    end  
     
     def call(env)
       dup._call(env)
@@ -56,7 +50,7 @@ module Lydia
     
     def process
       begin
-        instance_eval(&dispatch(env))
+        dispatch!(env, params)
       rescue NotFound
         not_found(env)
       rescue StandardError => exception
@@ -64,8 +58,16 @@ module Lydia
       end      
     end
     
-    def dispatch(env)
-      self.class.dispatch!(env, params)
-    end 
+    def dispatch!(env, params)
+      self.class.routes[env['REQUEST_METHOD']].each do |route|
+        if route.match?(env)
+          params.merge!(route.params) if route.params
+          catch (:next_route) do
+            return instance_eval(&route.block)
+          end
+        end
+      end
+      raise NotFound
+    end  
   end
 end
