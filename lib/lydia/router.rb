@@ -29,10 +29,10 @@ module Lydia
         end
         raise NotFound
       end
-    end
-    
-    def self.call(env)
-      new.call(env)
+      
+      def call(env)
+        new.call(env)
+      end
     end
     
     def call(env)

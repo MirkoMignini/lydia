@@ -2,8 +2,8 @@ module Lydia
   class Route    
     attr_reader :block, :regexp, :params
     
-    WILDCARD_REGEX = /\/\*(.*)/
-    NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/
+    WILDCARD_REGEX = /\/\*(.*)/.freeze
+    NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/.freeze
 
     def initialize(pattern, block)
       @block = block
