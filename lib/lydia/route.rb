@@ -5,15 +5,16 @@ module Lydia
     WILDCARD_REGEX = /\/\*(.*)/.freeze
     NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/.freeze
 
-    def initialize(pattern, block)
+    def initialize(namespace, pattern, options, block)
       @block = block
       if pattern.is_a? String
-        if pattern.match(WILDCARD_REGEX)
-          result = pattern.gsub(WILDCARD_REGEX, '(?:/(.*)|)')
-        elsif pattern.match(NAMED_SEGMENTS_REGEX)
-          result = pattern.gsub(NAMED_SEGMENTS_REGEX, '/\1(?<\2>[^.$/]+)')
+        path = (namespace || '') + pattern
+        if path.match(WILDCARD_REGEX)
+          result = path.gsub(WILDCARD_REGEX, '(?:/(.*)|)')
+        elsif path.match(NAMED_SEGMENTS_REGEX)
+          result = path.gsub(NAMED_SEGMENTS_REGEX, '/\1(?<\2>[^.$/]+)')
         else
-          result = pattern
+          result = path
         end
         @regexp = Regexp.new("\\A#{result}\\z")
       elsif pattern.is_a? Regexp

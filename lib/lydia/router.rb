@@ -15,9 +15,17 @@ module Lydia
       end
       
       %w(HEAD GET PATCH PUT POST DELETE OPTIONS).each do |request_method|
-        define_method(request_method.downcase) do |pattern, &block|
-          routes[request_method] << Route.new(pattern, block)
+        define_method(request_method.downcase) do |pattern, options = {}, &block|
+          routes[request_method] << Route.new(@namespace, pattern, options, block)
         end
+      end
+      
+      def namespace(pattern, options = {}, &block)
+        @namespace ||= ''
+        prev_namespace = @namespace
+        @namespace += pattern
+        yield
+        @namespace = prev_namespace
       end
       
       def dispatch!(env, params)

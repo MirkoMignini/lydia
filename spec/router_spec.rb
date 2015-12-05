@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rack/test'
+require 'lydia/router'
 
 describe "Router" do
   include Rack::Test::Methods
@@ -35,6 +36,18 @@ describe "Router" do
 
     get '/api/v:version/users' do
       get_response(params[:version])
+    end
+    
+    namespace '/namespace' do
+      get '/hello' do
+        get_response('Hello from namespace')
+      end
+      
+      namespace '/nested' do
+        get '/hello' do
+          get_response('Hello from nested namespace')
+        end
+      end
     end
 
     def get_response(body, status = 200)
@@ -72,6 +85,20 @@ describe "Router" do
       expect(last_response.body).to eq('<H1>Hello world!</H1>')
     end
   end
+  
+  context 'Namespace' do
+    it 'GET /namespace/hello' do
+      get '/namespace/hello'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('Hello from namespace')
+    end
+    
+    it 'GET /namespace/nested/hello' do
+      get '/namespace/nested/hello'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('Hello from nested namespace')
+    end    
+  end  
 
   context 'Routing' do
 
