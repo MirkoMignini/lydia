@@ -13,19 +13,8 @@ describe "Application" do
     end
   end
   
-  class UpcaseMiddleware
-    def initialize(app)
-      @app = app
-    end
-
-    def call(env)
-      @app.call(env)
-    end
-  end
-  
   class App < Lydia::Application        
     use Rack::Lint
-    use UpcaseMiddleware
 
     map '/api' do
       run API
