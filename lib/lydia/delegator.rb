@@ -4,6 +4,8 @@ require 'forwardable'
 module Lydia
   module Delegator
     extend Forwardable
-    def_delegators Lydia::Application, :head, :get, :patch, :put, :post, :delete, :options
+    def_delegators  Lydia::Application, 
+                    :head, :get, :patch, :put, :post, :delete, :options,
+                    :map, :use, :run
   end
 end
