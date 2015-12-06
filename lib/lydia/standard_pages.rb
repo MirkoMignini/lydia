@@ -9,5 +9,10 @@ module Lydia
       message = "<html><body><h1>Internal server error</h1><p>#{exception}</p></body></html>"
       [500, {'Content-Type' => 'text/html', 'Content-Length' => message.length.to_s}, [message]]      
     end
+    
+    def halted(_env = nil)
+      message = "<html><body><h1>Application halted</h1></body></html>"
+      [500, {'Content-Type' => 'text/html', 'Content-Length' => message.length.to_s}, [message]]            
+    end
   end
 end

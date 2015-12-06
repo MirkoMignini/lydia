@@ -1,6 +1,7 @@
 require 'lydia/standard_pages'
 require 'lydia/route'
 require 'lydia/not_found'
+require 'lydia/halted'
 require 'lydia/request'
 
 module Lydia
@@ -37,6 +38,10 @@ module Lydia
       throw :next_route
     end  
     
+    def halt(input = nil)
+      raise Halted.new(input || halted)
+    end
+    
     def call(env)
       dup._call(env)
     end
@@ -53,6 +58,8 @@ module Lydia
         dispatch!(env, params)
       rescue NotFound
         not_found(env)
+      rescue Halted => exception
+        exception.content
       rescue StandardError => exception
         internal_server_error(env, exception)
       end      

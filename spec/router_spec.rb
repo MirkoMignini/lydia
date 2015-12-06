@@ -38,6 +38,14 @@ describe "Router" do
       get_response(params[:version])
     end
     
+    get '/halt' do
+      halt
+    end
+    
+    get '/custom_halt' do
+      halt get_response('', 204)
+    end    
+    
     get '/next_route' do
       next_route
     end
@@ -195,6 +203,20 @@ describe "Router" do
     it 'responds to params' do
       expect(router).to respond_to(:params)
     end     
+  end
+  
+  context 'Halt' do
+    it 'returns 500 (default halt)' do
+      get '/halt'
+      expect(last_response.status).to eq(500)
+      expect(last_response.body).to include('halted')
+    end
+    
+    it 'returns 204 (custom halt)' do
+      get '/custom_halt'
+      expect(last_response.status).to eq(204)
+      expect(last_response.body).to eq('')
+    end    
   end
 
   context 'Class methods' do
