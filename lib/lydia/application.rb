@@ -3,15 +3,26 @@ require 'rack/builder'
 require 'lydia/router'
 require 'lydia/view'
 require 'lydia/filters'
+require 'lydia/helpers'
+require 'lydia/request'
 require 'lydia/response'
 
 module Lydia
   class Application < Router
     include View
     include Filters
+    include Helpers
     
     def process
-      Response.new.build(super)
+      @response.build(super)
+    end
+    
+    def new_request(env)
+      Lydia::Request.new(env)
+    end
+    
+    def new_response(body = [], status = 200, header = {})
+      Lydia::Response.new(body, status, header)
     end
     
     class << self

@@ -105,7 +105,7 @@ describe "Router" do
       expect(last_response.status).to eq(200)
       expect(last_response.headers.to_hash).to eq({'Content-Type' => 'text/html', 'Content-Length' => '21'})
       expect(last_response.body).to eq('<H1>Hello world!</H1>')
-    end
+    end   
   end
 
   context 'Routing' do

@@ -15,7 +15,7 @@ module Lydia
         define_method(filter) do |pattern = '/*', options = {}, &block|
           filters[filter.to_sym] << Route.new(@namespace, pattern, options, block)
         end
-      end    
+      end
     end
     
     def dispatch(env, params)

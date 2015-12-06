@@ -1,14 +1,15 @@
-require 'lydia/standard_pages'
 require 'lydia/route'
+require 'lydia/standard_pages'
 require 'lydia/not_found'
 require 'lydia/halted'
-require 'lydia/request'
+require 'rack/request'
+require 'rack/response'
 
 module Lydia
   class Router
     include StandardPages
     
-    attr_reader :request, :env, :params
+    attr_reader :request, :response, :env, :params
     
     class << self      
       def routes
@@ -47,13 +48,22 @@ module Lydia
     
     def _call(env)
       @env = env
-      @request = Request.new(env)
+      @request = new_request(env)
+      @response = new_response
       @params = @request.params
       process
     end
     
+    def new_request(env)
+      Rack::Request.new(env)
+    end
+    
+    def new_response(body = [], status = 200, header = {})
+      Rack::Response.new(body, status, header)
+    end
+    
     def process
-      begin
+      begin        
         dispatch(env, params)
       rescue NotFound
         not_found(env)
