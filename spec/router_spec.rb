@@ -17,6 +17,24 @@ describe "Router" do
     get '/500' do
       raise StandardError.new('Error!')
     end  
+    
+    namespace '/namespace' do
+      get '/hello' do
+        get_response('Hello from namespace')
+      end
+      
+      namespace '/nested' do
+        get '/hello' do
+          get_response('Hello from nested namespace')
+        end
+      end
+      
+      namespace '/api/v:version' do
+        get '/posts' do
+          get_response("Namespace api version #{params[:version]}")
+        end
+      end
+    end  
 
     get '/querystring_params' do
       get_response(params['name'])
@@ -53,18 +71,6 @@ describe "Router" do
     get '/next_route' do
       get_response('Next route works!')
     end    
-    
-    namespace '/namespace' do
-      get '/hello' do
-        get_response('Hello from namespace')
-      end
-      
-      namespace '/nested' do
-        get '/hello' do
-          get_response('Hello from nested namespace')
-        end
-      end
-    end
 
     def get_response(body, status = 200)
       [status, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
@@ -101,22 +107,28 @@ describe "Router" do
       expect(last_response.body).to eq('<H1>Hello world!</H1>')
     end
   end
-  
-  context 'Namespace' do
-    it 'GET /namespace/hello' do
-      get '/namespace/hello'
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to eq('Hello from namespace')
-    end
-    
-    it 'GET /namespace/nested/hello' do
-      get '/namespace/nested/hello'
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to eq('Hello from nested namespace')
-    end    
-  end  
 
   context 'Routing' do
+    
+    context 'Namespace' do
+      it 'GET /namespace/hello' do
+        get '/namespace/hello'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('Hello from namespace')
+      end
+
+      it 'GET /namespace/nested/hello' do
+        get '/namespace/nested/hello'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('Hello from nested namespace')
+      end    
+      
+      it 'GET /namespace/api/v3/posts' do
+        get '/namespace/api/v3/posts'
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('Namespace api version 3')
+      end    
+    end        
 
     context 'Wildcards' do
       it 'GET wildcard' do

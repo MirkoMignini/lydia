@@ -2,11 +2,13 @@ require 'forwardable'
 require 'rack/builder'
 require 'lydia/router'
 require 'lydia/view'
+require 'lydia/filters'
 require 'lydia/response'
 
 module Lydia
   class Application < Router
     include View
+    include Filters
     
     def process
       Response.new.build(super)

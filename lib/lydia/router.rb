@@ -21,9 +21,8 @@ module Lydia
         end
       end
       
-      def namespace(pattern, options = {}, &block)
-        @namespace ||= ''
-        prev_namespace = @namespace
+      def namespace(pattern, options = {})
+        prev_namespace = @namespace ||= ''
         @namespace += pattern
         yield
         @namespace = prev_namespace
@@ -55,7 +54,7 @@ module Lydia
     
     def process
       begin
-        dispatch!(env, params)
+        dispatch(env, params)
       rescue NotFound
         not_found(env)
       rescue Halted => exception
@@ -65,7 +64,7 @@ module Lydia
       end      
     end
     
-    def dispatch!(env, params)
+    def dispatch(env, params)
       self.class.routes[env['REQUEST_METHOD']].each do |route|
         if route.match?(env)
           params.merge!(route.params) if route.params
