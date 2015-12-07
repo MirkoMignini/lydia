@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
+require 'rack/response'
 require 'erb'
-require 'json'
 require 'lydia/application'
 
 describe "Application" do
@@ -27,6 +27,13 @@ describe "Application" do
     get '/render' do
       render 'spec/templates/template.erb', nil, message: 'template'
     end      
+    
+    get '/empty' do
+    end
+    
+    get '/rack_response' do
+      Rack::Response.new(['Rack response'])
+    end
   end
   
   def app
@@ -46,6 +53,18 @@ describe "Application" do
       get '/response'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('true')
+    end
+    
+    it 'Returns empty' do
+      get '/empty'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('')      
+    end
+    
+    it 'Returns Rack::Response' do
+      get '/rack_response'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('Rack response')      
     end
   end
   
