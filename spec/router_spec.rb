@@ -5,7 +5,7 @@ require 'lydia/router'
 describe "Router" do
   include Rack::Test::Methods
   
-  class Router < Lydia::Router
+  class TestRouter < Lydia::Router
     get '/' do 
       get_response('<H1>Hello world!</H1>')
     end
@@ -31,13 +31,13 @@ describe "Router" do
       
       namespace '/api/v:version' do
         get '/posts' do
-          get_response("Namespace api version #{params[:version]}")
+          get_response("Namespace api version #{request.params[:version]}")
         end
       end
     end  
 
     get '/querystring_params' do
-      get_response(params['name'])
+      get_response(request.params['name'])
     end
 
     get '/wildcard/*' do
@@ -49,11 +49,11 @@ describe "Router" do
     end    
 
     get '/users/:id/comments/:comment_id/edit' do
-      get_response("#{params[:id]}-#{params[:comment_id]}")
+      get_response("#{request.params[:id]}-#{request.params[:comment_id]}")
     end
 
     get '/api/v:version/users' do
-      get_response(params[:version])
+      get_response(request.params[:version])
     end
     
     get '/halt' do
@@ -78,7 +78,7 @@ describe "Router" do
   end
 
   def app
-    Router.new
+    TestRouter.new
   end
 
   context 'Status codes' do
@@ -207,14 +207,14 @@ describe "Router" do
     it 'responds to request' do
       expect(router).to respond_to(:request)
     end
+    
+    it 'responds to response' do
+      expect(router).to respond_to(:response)
+    end    
 
     it 'responds to env' do
       expect(router).to respond_to(:env)
     end 
-
-    it 'responds to params' do
-      expect(router).to respond_to(:params)
-    end     
   end
   
   context 'Halt' do
@@ -233,7 +233,7 @@ describe "Router" do
 
   context 'Class methods' do
     def app
-      Router
+      TestRouter
     end
     
     it 'responds to call' do

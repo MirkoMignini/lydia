@@ -1,12 +1,12 @@
 module Lydia
   class Route    
-    attr_reader :block, :regexp, :params
+    attr_reader :regexp, :params, :namespace, :pattern, :options, :block
     
     WILDCARD_REGEX = /\/\*(.*)/.freeze
     NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/.freeze
 
-    def initialize(namespace, pattern, options, block)
-      @block = block
+    def initialize(namespace, pattern, options = {}, &block)
+      @namespace, @pattern, @options, @block = namespace, pattern, options, block
       if pattern.is_a? String
         path = (namespace || '') + pattern
         if path.match(WILDCARD_REGEX)
@@ -17,7 +17,7 @@ module Lydia
           result = path
         end
         @regexp = Regexp.new("\\A#{result}\\z")
-      elsif pattern.is_a? Regexp
+      elsif pattern.is_a?(Regexp)
         @regexp = pattern
       else
         raise ArgumentError.new('Pattern must be a string or a regex')

@@ -13,7 +13,7 @@ describe "Application" do
     end
   end
   
-  class App < Lydia::Application        
+  class TestApplication < Lydia::Application        
     use Rack::Lint
 
     map '/api' do
@@ -26,20 +26,11 @@ describe "Application" do
   
     get '/render' do
       render 'spec/templates/template.erb', nil, message: 'template'
-    end
-    
-    get '/content_type' do
-      content_type 'application/json'
-      'body'
-    end
-    
-    get '/redirect' do
-      redirect '/new_url'
-    end        
+    end      
   end
   
   def app
-    App.new
+    TestApplication
   end
   
   context 'Composition' do
@@ -65,20 +56,4 @@ describe "Application" do
       expect(last_response.body).to include('template')
     end      
   end
-  
-  context 'Helpers' do
-    it 'responds to content_type' do
-      get '/content_type'
-      expect(last_response.status).to eq(200)
-      expect(last_response.header['Content-Type']).to eq('application/json')
-      expect(last_response.body).to eq('body')
-    end
-    
-    it 'Handles redirect' do
-      get '/redirect'
-      expect(last_response.status).to eq(302)
-      expect(last_response.body).to eq('/new_url')
-    end     
-  end
-
 end

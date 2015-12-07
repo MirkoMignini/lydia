@@ -14,7 +14,14 @@ module Lydia
     include Helpers
     
     def process
-      @response.build(super)
+      result = super
+      if result.nil?
+        @response.build(200)
+      elsif result.class <= Rack::Response
+        result.finish
+      else
+        @response.build(result)
+      end
     end
     
     def new_request(env)
@@ -38,7 +45,7 @@ module Lydia
       
       def new(*args, &bk)
         app = new!(*args, &bk)
-        builder.run app
+        builder.run(app)
         builder.to_app
       end
     end

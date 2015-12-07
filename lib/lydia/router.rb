@@ -9,7 +9,7 @@ module Lydia
   class Router
     include StandardPages
     
-    attr_reader :request, :response, :env, :params
+    attr_reader :request, :response, :env
     
     class << self      
       def routes
@@ -18,7 +18,7 @@ module Lydia
       
       %w(HEAD GET PATCH PUT POST DELETE OPTIONS).each do |request_method|
         define_method(request_method.downcase) do |pattern, options = {}, &block|
-          routes[request_method] << Route.new(@namespace, pattern, options, block)
+          routes[request_method] << Route.new(@namespace, pattern, options, &block)
         end
       end
       
@@ -50,7 +50,6 @@ module Lydia
       @env = env
       @request = new_request(env)
       @response = new_response
-      @params = @request.params
       process
     end
     
@@ -63,21 +62,19 @@ module Lydia
     end
     
     def process
-      begin        
-        dispatch(env, params)
+      dispatch(env)
       rescue NotFound
         not_found(env)
       rescue Halted => exception
         exception.content
       rescue StandardError => exception
         internal_server_error(env, exception)
-      end      
     end
     
-    def dispatch(env, params)
+    def dispatch(env)
       self.class.routes[env['REQUEST_METHOD']].each do |route|
         if route.match?(env)
-          params.merge!(route.params) if route.params
+          @request.params.merge!(route.params) if route.params
           catch (:next_route) do
             return instance_eval(&route.block)
           end

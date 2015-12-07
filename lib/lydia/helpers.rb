@@ -6,6 +6,14 @@ module Lydia
     
     def redirect(target, status = 302)
       [status, target]
-    end    
+    end
+    
+    def params
+      @request.params
+    end
+    
+    def send_file(path, mime_type = nil)
+      #todo
+    end
   end
 end

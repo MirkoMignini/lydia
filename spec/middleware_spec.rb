@@ -19,7 +19,7 @@ describe "Middleware" do
     end
   end  
   
-  class MiddlewareTest < Lydia::Application
+  class TestMiddleware < Lydia::Application
     use UpcaseMiddleware
     
     get '/hello' do
@@ -28,7 +28,7 @@ describe "Middleware" do
   end
   
   def app
-    MiddlewareTest.new
+    TestMiddleware.new
   end
   
   context 'Middleware stack' do

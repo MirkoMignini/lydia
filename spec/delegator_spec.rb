@@ -7,7 +7,7 @@ extend Lydia::Delegator
 describe 'Delegator' do
   include Rack::Test::Methods
   
-  class DelegatorTest
+  class TestDelegator
     extend Lydia::Delegator
     
     get '/hello' do
