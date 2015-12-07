@@ -6,7 +6,10 @@ module Lydia
     NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/.freeze
 
     def initialize(namespace, pattern, options = {}, &block)
-      @namespace, @pattern, @options, @block = namespace, pattern, options, block
+      @namespace = namespace
+      @pattern = pattern
+      @options = options
+      @block = block
       if pattern.is_a? String
         path = (namespace || '') + pattern
         if path.match(WILDCARD_REGEX)

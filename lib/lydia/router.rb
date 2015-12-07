@@ -75,7 +75,7 @@ module Lydia
       self.class.routes[env['REQUEST_METHOD']].each do |route|
         if route.match?(env)
           @request.params.merge!(route.params) if route.params
-          catch (:next_route) do
+          catch(:next_route) do
             return instance_eval(&route.block)
           end
         end
