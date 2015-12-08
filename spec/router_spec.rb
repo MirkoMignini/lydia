@@ -18,6 +18,14 @@ describe "Router" do
       raise StandardError.new('Error!')
     end  
     
+    head '/request' do get_response('head'); end
+    get '/request' do get_response('get'); end
+    patch '/request' do get_response('patch'); end
+    put '/request' do get_response('put'); end
+    post '/request' do get_response('post'); end
+    delete '/request' do get_response('delete'); end
+    options '/request' do get_response('options'); end
+    
     namespace '/namespace' do
       get '/hello' do
         get_response('Hello from namespace')
@@ -106,6 +114,50 @@ describe "Router" do
       expect(last_response.headers.to_hash).to eq({'Content-Type' => 'text/html', 'Content-Length' => '21'})
       expect(last_response.body).to eq('<H1>Hello world!</H1>')
     end   
+  end
+  
+  context 'HTTP methods' do
+    it 'HEAD /request' do
+      head '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('head')
+    end
+    
+    it 'GET /request' do
+      get '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('get')
+    end
+    
+    it 'PATCH /request' do
+      patch '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('patch')
+    end
+    
+    it 'PUT /request' do
+      put '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('put')
+    end
+    
+    it 'POST /request' do
+      post '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('post')
+    end    
+    
+    it 'DELETE /request' do
+      delete '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('delete')
+    end    
+    
+    it 'OPTIONS /request' do
+      options '/request'
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('options')
+    end        
   end
 
   context 'Routing' do
@@ -231,11 +283,7 @@ describe "Router" do
     end    
   end
 
-  context 'Class methods' do
-    def app
-      TestRouter
-    end
-    
+  context 'Class methods' do    
     it 'responds to call' do
       expect(Lydia::Router).to respond_to(:call)
     end
