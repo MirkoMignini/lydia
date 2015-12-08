@@ -1,7 +1,7 @@
 require 'forwardable'
 require 'rack/builder'
 require 'lydia/router'
-require 'lydia/view'
+require 'lydia/templates'
 require 'lydia/filters'
 require 'lydia/helpers'
 require 'lydia/request'
@@ -9,7 +9,7 @@ require 'lydia/response'
 
 module Lydia
   class Application < Router
-    include View
+    include Templates
     include Filters
     include Helpers
     

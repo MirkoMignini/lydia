@@ -1,7 +1,7 @@
 require 'tilt'
 
 module Lydia
-  module View
+  module Templates
     def render(file, scope = nil, locals = {}, &block)
       template = Tilt.new(file)
       template.render(scope, locals, &block)

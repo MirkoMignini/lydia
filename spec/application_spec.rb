@@ -22,11 +22,7 @@ describe "Application" do
     
     get '/response' do
       respond_to?(:response).to_s
-    end 
-  
-    get '/render' do
-      render 'spec/templates/template.erb', nil, message: 'template'
-    end      
+    end     
     
     get '/empty' do
     end
@@ -66,13 +62,5 @@ describe "Application" do
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Rack response')      
     end
-  end
-  
-  context 'View' do
-    it 'render an erb template' do
-      get '/render'
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to include('template')
-    end      
   end
 end
