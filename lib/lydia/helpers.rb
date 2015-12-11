@@ -13,7 +13,7 @@ module Lydia
     end
     
     def send_file(path, mime_type = nil)
-      #todo
+      raise NotImplementedError.new
     end
   end
 end
