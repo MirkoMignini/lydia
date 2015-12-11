@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rack-test'
   
-  spec.add_dependency 'rack'', '~> 1.6.4'
+  spec.add_dependency 'rack', '~> 1.6.4'
   spec.add_dependency 'tilt'
 end
