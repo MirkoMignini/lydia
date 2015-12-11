@@ -18,6 +18,10 @@ describe "Helpers" do
     get '/params' do
       params['key']
     end
+    
+    get '/file' do
+      send_file('test.png')
+    end
   end
   
   def app
@@ -41,5 +45,11 @@ describe "Helpers" do
     get '/params', {key: 'value'}
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('value')
+  end
+  
+  it 'sends a file' do
+    expect {
+      get '/file'
+    }.to raise_error(NotImplementedError)
   end
 end
