@@ -3,6 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/MirkoMignini/lydia/badges/gpa.svg)](https://codeclimate.com/github/MirkoMignini/lydia)
 [![Gem Version](https://badge.fury.io/rb/lydia.svg)](https://badge.fury.io/rb/lydia)
 [![Dependency Status](https://gemnasium.com/MirkoMignini/lydia.svg)](https://gemnasium.com/MirkoMignini/lydia)
+[![security](https://hakiri.io/github/MirkoMignini/lydia/master.svg)](https://hakiri.io/github/MirkoMignini/lydia/master)
 
 # Lydia
 
