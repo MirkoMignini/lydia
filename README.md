@@ -43,7 +43,74 @@ The goals of this project are:
 
 ## Usage
 
-Usage instructions soon available!
+### First example
+Create a ruby file, fior example hello_world.rb, require 'lydia' and using the routing functions without creating an application object.
+
+    require 'lydia'
+    
+    get '/' do
+      'Hello world!'
+    end
+
+Just run it to start a webrick server that responds hello world to root.
+    
+    $ ruby hello_world.rb 
+
+### Application
+If preferred it's possible to create an application object and run using rackup command, in this case don't require lydia but lydia/application to avoid the server auto start. For example a minimal config.ru file can be:
+
+    require 'lydia/application'
+    
+    class App < Lydia::Application
+      get '/' do
+        'Hello world!'
+      end
+    end
+    
+    run App.new
+    
+Start the server using rackup command:
+
+    $ rackup
+    
+### Router
+
+#### Stand alone router
+If needed the router can be used stand alone, for example if best performances are needed, or used via the application class, slower but with a lot of more features.
+Stand alone example, note that the return type must be in rack standard format, an array of three that is status, header, body (as array):
+
+    require 'lydia/router'
+    
+    class App < Lydia::Router
+      get '/' do
+        body = 'Hellow world!' 
+        [200, { 'Content-Type' => 'text/html', 'Content-Length' => body.length.to_s }, [body]]
+      end
+    end
+
+#### HTTP verbs
+
+#### Parameters
+
+#### Wildcards
+
+#### Named route parameters
+
+#### Regular expressions
+
+#### Not found routes and errors
+
+#### Skip to next route
+
+#### Halting
+
+### Return types
+
+### Filters
+
+### Templates
+
+### Helpers
 
 ## Contributing
 
