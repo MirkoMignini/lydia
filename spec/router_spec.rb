@@ -283,11 +283,7 @@ describe "Router" do
     end    
   end
 
-  context 'Class methods' do    
-    it 'responds to call' do
-      expect(Lydia::Router).to respond_to(:call)
-    end
-    
+  context 'Class methods' do        
     it 'is initialized' do
       get '/'
       expect(last_response.status).to eq(200)

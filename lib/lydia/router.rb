@@ -28,10 +28,6 @@ module Lydia
         yield
         @namespace = prev_namespace
       end
-      
-      def call(env)
-        new.call(env)
-      end
     end
     
     def next_route

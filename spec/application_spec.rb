@@ -17,7 +17,7 @@ describe "Application" do
     use Rack::Lint
 
     map '/api' do
-      run API
+      run API.new
     end
     
     get '/response' do
@@ -33,7 +33,7 @@ describe "Application" do
   end
   
   def app
-    TestApplication
+    TestApplication.new
   end
   
   context 'Composition' do
