@@ -30,6 +30,10 @@ describe "Router" do
       get '/hello' do
         get_response('Hello from namespace')
       end
+
+      get %r{/regular$}i do
+        get_response('Regexp inside namespace')
+      end        
       
       namespace '/nested' do
         get '/hello' do
@@ -180,6 +184,11 @@ describe "Router" do
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq('Namespace api version 3')
       end    
+      
+      it 'GET /namespace/regular' do
+        get '/namespace/regular'
+        expect(last_response.status).to eq(200)
+      end
     end        
 
     context 'Wildcards' do

@@ -21,7 +21,7 @@ module Lydia
         end
         @regexp = Regexp.new("\\A#{result}\\z")
       elsif pattern.is_a?(Regexp)
-        @regexp = pattern
+        @regexp = Regexp.new((namespace || '') + pattern.to_s)
       else
         raise ArgumentError.new('Pattern must be a string or a regex')
       end
