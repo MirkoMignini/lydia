@@ -18,7 +18,7 @@ module Lydia
       
       %w(HEAD GET PATCH PUT POST DELETE OPTIONS).each do |request_method|
         define_method(request_method.downcase) do |pattern, options = {}, &block|
-          routes[request_method] << Route.new(@namespace, pattern, options, &block)
+          routes[request_method] << Route.new(request_method, @namespace, pattern, options, &block)
         end
       end
       

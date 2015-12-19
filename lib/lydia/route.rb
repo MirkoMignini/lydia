@@ -1,11 +1,12 @@
 module Lydia
   class Route    
-    attr_reader :regexp, :params, :namespace, :pattern, :options, :block
+    attr_reader :regexp, :params, :request_method, :namespace, :pattern, :options, :block
     
     WILDCARD_REGEX = /\/\*(.*)/.freeze
     NAMED_SEGMENTS_REGEX = /\/([^\/]*):([^:$\/]+)/.freeze
 
-    def initialize(namespace, pattern, options = {}, &block)
+    def initialize(request_method, namespace, pattern, options = {}, &block)
+      @request_method = request_method
       @namespace = namespace
       @pattern = pattern
       @options = options

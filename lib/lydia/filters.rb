@@ -13,13 +13,13 @@ module Lydia
       
       %w(before after).each do |filter|
         define_method(filter) do |pattern = '/*', options = {}, &block|
-          filters[filter.to_sym] << Route.new(@namespace || '', pattern, options, &block)
+          filters[filter.to_sym] << Route.new(filter, @namespace || '', pattern, options, &block)
         end
       end
       
       def redirect(pattern, options = {})
         return ArgumentError.new('Options must contains :to') unless options.include?(:to)
-        filters[:redirect] << Route.new(@namespace || '', pattern, options)
+        filters[:redirect] << Route.new('redirect', @namespace || '', pattern, options)
       end
     end
     
