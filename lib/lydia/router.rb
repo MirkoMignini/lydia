@@ -22,7 +22,7 @@ module Lydia
         end
       end
       
-      def namespace(pattern, options = {})
+      def namespace(pattern, _options = {})
         prev_namespace = @namespace ||= ''
         @namespace += pattern
         yield

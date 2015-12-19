@@ -12,7 +12,7 @@ module Lydia
       @request.params
     end
     
-    def send_file(path, mime_type = nil)
+    def send_file(_path, _mime_type = nil)
       raise NotImplementedError.new
     end
   end
