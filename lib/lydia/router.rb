@@ -67,8 +67,12 @@ module Lydia
         internal_server_error(env, exception)
     end
     
+    def routes
+      self.class.routes
+    end
+    
     def dispatch(env)
-      self.class.routes[env['REQUEST_METHOD']].each do |route|
+      routes[env['REQUEST_METHOD']].each do |route|
         if route.match?(env)
           @request.params.merge!(route.params) if route.params
           catch(:next_route) do
