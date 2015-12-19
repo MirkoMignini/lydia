@@ -1,4 +1,5 @@
 require 'rack/response'
+require 'json'
 
 module Lydia
   class Response < Rack::Response    
