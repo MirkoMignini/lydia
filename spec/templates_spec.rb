@@ -11,7 +11,7 @@ describe "Templates" do
     end  
 
     get '/render_haml' do
-      render 'spec/templates/template.haml', nil, message: 'template'
+      render 'spec/templates/template.haml', Object.new, message: 'template'
     end
   end
   
