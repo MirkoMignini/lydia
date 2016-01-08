@@ -13,9 +13,9 @@ describe "Middleware" do
     end
 
     def call(env)
-      result = @app.call(env)
-      result[2].body[0] = result[2].body[0].upcase
-      result
+      status, headers, body  = @app.call(env)
+      upcased_body = body.map { |chunk| chunk.upcase }
+      [status, headers, upcased_body]
     end
   end  
   

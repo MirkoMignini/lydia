@@ -27,8 +27,8 @@ describe 'Response' do
       expect(result[0]).to eq(200)
       expect(result[1]).to include('Content-Type' => 'text/html')
       expect(result[1]).to include('Content-Length' => body.length.to_s)
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to eq(body)
+      expect(result[2]).to be_an(Array)
+      expect(result[2][0]).to eq(body)
     end
     
     it 'builds using a fixnum (status)' do
@@ -51,8 +51,8 @@ describe 'Response' do
       expect(result[0]).to eq(200)
       expect(result[1]).to include('Content-Type' => 'application/json')
       expect(result[1]).to include('Content-Length' => body.to_json.length.to_s)
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to eq(body.to_json)
+      expect(result[2]).to be_an(Array)
+      expect(result[2][0]).to eq(body.to_json)
     end    
     
     it 'builds using an array of two (body is array)' do
@@ -63,8 +63,8 @@ describe 'Response' do
       expect(result[0]).to eq(201)
       expect(result[1]).to include('Content-Type' => 'text/html')
       expect(result[1]).to include('Content-Length' => body[1][0].length.to_s)
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to eq(body[1][0])
+      expect(result[2]).to be_an(Array)
+      expect(result[2][0]).to eq(body[1][0])
     end
     
     it 'builds using an array of two (body is noy an array)' do
@@ -75,8 +75,8 @@ describe 'Response' do
       expect(result[0]).to eq(201)
       expect(result[1]).to include('Content-Type' => 'text/html')
       expect(result[1]).to include('Content-Length' => body[1].length.to_s)
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to eq(body[1])
+      expect(result[2]).to be_an(Array)
+      expect(result[2][0]).to eq(body[1])
     end    
     
     it 'builds using an array of three' do
@@ -88,8 +88,8 @@ describe 'Response' do
       expect(result[1]).to include('Content-Type' => 'text/html')
       expect(result[1]).to include('Content-Length' => body[2].length.to_s)
       expect(result[1]).to include('Authentication' => '12345')
-      expect(result[2].body).to be_an(Array)
-      expect(result[2].body[0]).to eq(body[2])
+      expect(result[2]).to be_an(Array)
+      expect(result[2][0]).to eq(body[2])
     end   
     
     class Stream
@@ -113,8 +113,8 @@ describe 'Response' do
         expect(result[0]).to eq(200)
         expect(result[1]).to include('Content-Type' => 'text/html')
         expect(result[1]).to include('Content-Length')
-        expect(result[2].body).to be_an(Array)
-        expect(result[2].body[0]).to_not be_nil
+        expect(result[2]).to be_an(Array)
+        expect(result[2][0]).to_not be_nil
       end
     
     end

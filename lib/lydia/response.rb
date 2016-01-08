@@ -30,5 +30,18 @@ module Lydia
       end
       finish
     end
+    
+    def finish(&block)
+      @block = block
+
+      if [204, 205, 304].include?(status.to_i)
+        headers.delete 'Content-Length'
+        headers.delete 'Content-Type'
+        close
+        [status.to_i, header, []]
+      else
+        [status.to_i, header, @body]
+      end
+    end    
   end
 end
