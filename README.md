@@ -88,6 +88,8 @@ Stand alone example, note that the return type must be in rack standard format, 
       end
     end
 
+### DOCUMENTATION IN PROGRESS...
+
 #### HTTP verbs
 
 #### Parameters
