@@ -88,9 +88,10 @@ Stand alone example, note that the return type must be in rack standard format, 
       end
     end
 
-### DOCUMENTATION IN PROGRESS...
-
 #### HTTP verbs
+Supports standard HTTP verbs: HEAD GET PATCH PUT POST DELETE OPTIONS.
+
+### DOCUMENTATION IN PROGRESS...
 
 #### Parameters
 
@@ -113,6 +114,28 @@ Stand alone example, note that the return type must be in rack standard format, 
 ### Templates
 
 ### Helpers
+
+#### Redirect
+It's possible to redirect the page using the redirect helper:
+
+    get '/test' do
+        redirect('/new_url')
+    end
+
+#### Params
+It's possible to read request parameters using params helper:
+
+    get '/test' do
+        params['my_param']
+    end 
+
+#### Content type
+It's possible to force the response return type using content_type helper:
+
+    get '/test'
+        content_type 'application/json'
+        'body'
+    end
 
 ## Contributing
 
