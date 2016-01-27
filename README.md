@@ -113,28 +113,36 @@ Supports standard HTTP verbs: HEAD GET PATCH PUT POST DELETE OPTIONS.
 
 ### Templates
 
+Extensive templates support using [tilt](https://github.com/rtomayko/tilt/)
+To render a template simply use the render function:
+
+    get '/render_erb' do
+      render 'template.erb', nil, message: 'template'
+    end 
+
+
 ### Helpers
 
 #### Redirect
 It's possible to redirect the page using the redirect helper:
 
     get '/test' do
-        redirect('/new_url')
+      redirect('/new_url')
     end
 
 #### Params
 It's possible to read request parameters using params helper:
 
     get '/test' do
-        params['my_param']
+      params['my_param']
     end 
 
 #### Content type
 It's possible to force the response return type using content_type helper:
 
     get '/test'
-        content_type 'application/json'
-        'body'
+      content_type 'application/json'
+      'body'
     end
 
 ## Contributing
