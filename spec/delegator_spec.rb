@@ -6,23 +6,23 @@ extend Lydia::Delegator
 
 describe 'Delegator' do
   include Rack::Test::Methods
-  
+
   class TestDelegator
     extend Lydia::Delegator
-    
+
     get '/hello' do
       'Hello world!'
     end
   end
-  
+
   def app
     Lydia::Application.new
   end
-  
+
   it 'Delegator initialize correctly' do
     expect(1).to eq(1)
   end
-  
+
   it 'Delegates to Application' do
     get '/hello'
     expect(last_response.status).to eq(200)

@@ -9,12 +9,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Mirko Mignini']
   spec.email         = ['mirko.mignini@gmail.com']
 
-  spec.summary       = %q{Lightweight, fast and easy to use small ruby web framework.}
-  spec.description   = %q{Lightweight, fast and easy to use small ruby web framework.}
+  spec.summary       = 'Lightweight, fast and easy to use small ruby web framework.'
+  spec.description   = 'Lightweight, fast and easy to use small ruby web framework.'
   spec.homepage      = 'https://github.com/MirkoMignini/lydia'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
@@ -27,7 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'haml'
   spec.add_development_dependency 'rubocop'
-  
+  spec.add_development_dependency 'rubocop-rspec'
+
   spec.add_dependency 'rack', '~> 1.6.4'
   spec.add_dependency 'tilt'
 end

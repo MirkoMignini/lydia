@@ -12,7 +12,7 @@ module Lydia
     include Templates
     include Filters
     include Helpers
-    
+
     def process
       result = super
       if result.nil?
@@ -23,31 +23,31 @@ module Lydia
         @response.build(result)
       end
     end
-    
+
     def new_request(env)
       Lydia::Request.new(env)
     end
-    
+
     def new_response(body = [], status = 200, header = {})
       Lydia::Response.new(body, status, header)
     end
-    
+
     class << self
       extend Forwardable
-      
+
       def_delegators :builder, :map, :use, :run
-      
+
       def builder
         @builder ||= Rack::Builder.new
       end
 
       alias new! new
-      
+
       def new(*args, &bk)
         app = new!(*args, &bk)
         builder.run(app)
         builder.to_app
       end
     end
-  end  
+  end
 end

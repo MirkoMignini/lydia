@@ -4,7 +4,7 @@ require 'erb'
 require 'json'
 require 'lydia/application'
 
-describe "Middleware" do
+describe 'Middleware' do
   include Rack::Test::Methods
 
   class UpcaseMiddleware
@@ -13,24 +13,24 @@ describe "Middleware" do
     end
 
     def call(env)
-      status, headers, body  = @app.call(env)
-      upcased_body = body.map { |chunk| chunk.upcase }
+      status, headers, body = @app.call(env)
+      upcased_body = body.map(&:upcase)
       [status, headers, upcased_body]
     end
-  end  
-  
+  end
+
   class TestMiddleware < Lydia::Application
     use UpcaseMiddleware
-    
+
     get '/hello' do
       'Hello world!'
     end
   end
-  
+
   def app
     TestMiddleware.new
   end
-  
+
   context 'Middleware stack' do
     it 'is correctly handled' do
       get '/hello'

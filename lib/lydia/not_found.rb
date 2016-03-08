@@ -1,4 +1,4 @@
 module Lydia
-  class NotFound < StandardError 
+  class NotFound < StandardError
   end
 end

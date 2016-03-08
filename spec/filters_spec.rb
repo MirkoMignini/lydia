@@ -2,50 +2,49 @@ require 'spec_helper'
 require 'rack/test'
 require 'lydia/application'
 
-describe "Filters" do
+describe 'Filters' do
   include Rack::Test::Methods
 
-  class TestFilters < Lydia::Application        
-
+  class TestFilters < Lydia::Application
     before do
       @filter = 'before'
     end
-    
+
     after do
       @filter = 'after'
     end
-    
+
     get '/filter' do
       @filter
     end
-    
+
     redirect '/redirect', to: '/redirected'
-    
+
     get '/redirected' do
       'redirected'
     end
-    
+
     namespace '/namespace' do
       before do
         @filter_nested = 'before'
       end
-    
+
       after do
         @filter_nested = 'after'
       end
-      
+
       redirect '/redirect', to: '/redirected'
-      
+
       get '/redirected' do
         'redirected in namespace'
       end
-      
+
       get '/filter' do
         "#{@filter} #{@filter_nested}"
       end
     end
   end
-  
+
   def app
     TestFilters.new
   end
@@ -64,10 +63,10 @@ describe "Filters" do
         get '/namespace/filter'
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq('before before')
-      end    
+      end
     end
   end
-  
+
   context 'Redirect' do
     context 'Root' do
       it 'redirects' do
@@ -76,7 +75,7 @@ describe "Filters" do
         expect(last_response.body).to eq('redirected')
       end
     end
-    
+
     context 'Namespace' do
       it 'redirects' do
         get '/namespace/redirect'
@@ -85,5 +84,4 @@ describe "Filters" do
       end
     end
   end
-
 end

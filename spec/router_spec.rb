@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'rack/test'
 require 'lydia/router'
 
-describe "Router" do
+describe 'Router' do
   include Rack::Test::Methods
 
   class TestRouter < Lydia::Router
@@ -15,16 +15,16 @@ describe "Router" do
     end
 
     get '/500' do
-      raise StandardError.new('Error!')
+      raise StandardError, 'Error!'
     end
 
-    head '/request' do get_response('head'); end
-    get '/request' do get_response('get'); end
-    patch '/request' do get_response('patch'); end
-    put '/request' do get_response('put'); end
-    post '/request' do get_response('post'); end
-    delete '/request' do get_response('delete'); end
-    options '/request' do get_response('options'); end
+    head('/request') { get_response('head') }
+    get('/request') { get_response('get') }
+    patch('/request') { get_response('patch') }
+    put('/request') { get_response('put') }
+    post('/request') { get_response('post') }
+    delete('/request') { get_response('delete') }
+    options('/request') { get_response('options') }
 
     namespace '/namespace' do
       get '/hello' do
@@ -89,7 +89,7 @@ describe "Router" do
     end
 
     def get_response(body, status = 200)
-      [status, { 'Content-Type' => 'text/html', 'Content-Length'=> body.length.to_s }, [body]]
+      [status, { 'Content-Type' => 'text/html', 'Content-Length' => body.length.to_s }, [body]]
     end
   end
 
@@ -115,11 +115,12 @@ describe "Router" do
   end
 
   context 'Response' do
-    it "returns a valid response" do
+    it 'returns a valid response' do
       get '/'
-      expect(last_response).to_not be_nil
+      expect(last_response).not_to be_nil
       expect(last_response.status).to eq(200)
-      expect(last_response.headers.to_hash).to eq({'Content-Type' => 'text/html', 'Content-Length' => '21'})
+      expect(last_response.headers.to_hash).to eq('Content-Type' => 'text/html',
+                                                  'Content-Length' => '21')
       expect(last_response.body).to eq('<H1>Hello world!</H1>')
     end
   end
@@ -169,7 +170,6 @@ describe "Router" do
   end
 
   context 'Routing' do
-
     context 'Namespace' do
       it 'GET /namespace/hello' do
         get '/namespace/hello'
@@ -248,13 +248,13 @@ describe "Router" do
       it 'GET /index.json' do
         get '/index.json'
         expect(last_response.status).to eq(200)
-        expect(last_response.body).to eq('json')        
+        expect(last_response.body).to eq('json')
       end
     end
 
     context 'Query string params' do
       it 'GET /querystring_params' do
-        get '/querystring_params', { name: 'bob' }
+        get '/querystring_params', name: 'bob'
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq('bob')
       end
@@ -262,12 +262,12 @@ describe "Router" do
 
     context 'Route not valid' do
       it 'returns ArgumentError' do
-        expect {
+        expect do
           class WrongRoute < Lydia::Router
             get Object do
             end
           end
-        }.to raise_error(ArgumentError)
+        end.to raise_error(ArgumentError)
       end
     end
   end
@@ -308,5 +308,4 @@ describe "Router" do
       expect(last_response.status).to eq(200)
     end
   end
-
 end
