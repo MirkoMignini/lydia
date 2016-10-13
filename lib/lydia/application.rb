@@ -41,11 +41,8 @@ module Lydia
         @builder ||= Rack::Builder.new
       end
 
-      alias new! new
-
       def new(*args, &bk)
-        app = new!(*args, &bk)
-        builder.run(app)
+        builder.run(super(*args, &bk))
         builder.to_app
       end
     end
