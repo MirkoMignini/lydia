@@ -13,7 +13,7 @@ module Lydia
     end
 
     def send_file(_path, _mime_type = nil)
-      raise NotImplementedError, 'Send file not yet implemented.'
+      raise(NotImplementedError, 'Send file not yet implemented.')
     end
   end
 end

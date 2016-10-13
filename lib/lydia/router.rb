@@ -35,7 +35,7 @@ module Lydia
     end
 
     def halt(input = nil)
-      raise Halted.new(input || halted), 'Halt'
+      raise(Halted.new(input || halted), 'Halt')
     end
 
     def call(env)
@@ -79,7 +79,7 @@ module Lydia
           return instance_eval(&route.block)
         end
       end
-      raise NotFound, 'Not found'
+      raise(NotFound, 'Not found')
     end
   end
 end

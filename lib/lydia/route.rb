@@ -11,21 +11,7 @@ module Lydia
       @pattern = pattern
       @options = options
       @block = block
-      if pattern.is_a? String
-        path = (namespace || '') + pattern
-        result = if path.match(WILDCARD_REGEX)
-          path.gsub(WILDCARD_REGEX, '(?:/(.*)|)')
-        elsif path.match(NAMED_SEGMENTS_REGEX)
-          path.gsub(NAMED_SEGMENTS_REGEX, '/\1(?<\2>[^.$/]+)')
-        else
-          path
-        end
-        @regexp = Regexp.new("\\A#{result}\\z")
-      elsif pattern.is_a?(Regexp)
-        @regexp = Regexp.new((namespace || '') + pattern.to_s)
-      else
-        raise ArgumentError, 'Pattern must be a string or a regex'
-      end
+      @regexp = init_regexp
     end
 
     def match?(env)
@@ -34,6 +20,26 @@ module Lydia
         @params = Hash[match.names.map(&:to_sym).zip(match.captures)]
       end
       match
+    end
+
+    private
+
+    def init_regexp
+      return regexp_from_string if @pattern.is_a? String
+      return Regexp.new((@namespace || '') + @pattern.to_s) if @pattern.is_a?(Regexp)
+      raise(ArgumentError, 'Pattern must be a string or a regex')
+    end
+
+    def regexp_from_string
+      path = (@namespace || '') + @pattern
+      result = if path.match(WILDCARD_REGEX)
+        path.gsub(WILDCARD_REGEX, '(?:/(.*)|)')
+      elsif path.match(NAMED_SEGMENTS_REGEX)
+        path.gsub(NAMED_SEGMENTS_REGEX, '/\1(?<\2>[^.$/]+)')
+      else
+        path
+      end
+      Regexp.new("\\A#{result}\\z")
     end
   end
 end

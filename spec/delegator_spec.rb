@@ -19,10 +19,6 @@ describe 'Delegator' do
     Lydia::Application.new
   end
 
-  it 'Delegator initialize correctly' do
-    expect(1).to eq(1)
-  end
-
   it 'Delegates to Application' do
     get '/hello'
     expect(last_response.status).to eq(200)
