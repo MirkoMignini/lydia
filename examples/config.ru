@@ -6,3 +6,5 @@ class App < Lydia::Application
     'Hello world!'
   end
 end
+
+run App.new
