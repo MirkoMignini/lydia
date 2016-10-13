@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-rspec'
 
-  spec.add_dependency 'rack', '~> 1.6.4'
+  spec.add_dependency 'rack', '~> 2.0.1'
   spec.add_dependency 'tilt'
 end
