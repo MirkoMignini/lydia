@@ -67,7 +67,7 @@ describe 'Response' do
       expect(result[2][0]).to eq(body[1][0])
     end
 
-    it 'builds using an array of two (body is noy an array)' do
+    it 'builds using an array of two (body is not an array)' do
       body = [201, 'Body']
       result = response.build(body)
       expect(result).not_to be_nil

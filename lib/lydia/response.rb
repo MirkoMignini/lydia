@@ -37,8 +37,8 @@ module Lydia
     end
 
     def build_array(input)
-      @status = input.first
-      write(input.last.is_a?(Array) ? input.last[0] : input.last)
+      @status, *, body = input
+      write(body.is_a?(Array) ? body[0] : body)
       headers.merge!(input[1]) if input.count == 3
     end
 
